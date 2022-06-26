@@ -1,0 +1,93 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+model User {
+  id              String     @id @default(uuid())
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  username        String     @unique
+  password        String
+  banned          Boolean    @default(false)
+  role            Role       @default(USER)
+  apiToken        String?    @unique
+  email           String?
+  emailVerifiedAt DateTime?
+  phone           String?
+  phoneVerifiedAt DateTime?
+  profile         Profile?
+  links           LinkInfo[]
+}
+
+model Profile {
+  id     String  @id @default(uuid())
+  bio    String?
+  avatar String?
+  userId String  @unique
+  user   User    @relation(fields: [userId], references: [id])
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model LinkInfo {
+  id        String      @id @default(uuid())
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  url       String
+  shortId   String      @unique
+  ip        String?
+  userId    String?
+  user      User?       @relation(fields: [userId], references: [id])
+  visitInfo VisitInfo[]
+}
+
+model VisitInfo {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  ip        String?
+  linkId    String
+  link      LinkInfo @relation(fields: [linkId], references: [id])
+  geoInfoId String?
+  geo       GeoInfo? @relation(fields: [geoInfoId], references: [id])
+  uaInfoId  String?
+  ua        UaInfo?  @relation(fields: [uaInfoId], references: [id])
+}
+
+model GeoInfo {
+  id        String      @id @default(uuid())
+  country   String?
+  city      String?
+  latitude  String?
+  longitude String?
+  region    String?
+  timezone  String?
+  area      String?
+  visitInfo VisitInfo[]
+}
+
+model UaInfo {
+  id              String      @id @default(uuid())
+  isBot           Boolean?
+  ua              String?
+  browserName     String?
+  browserVersion  String?
+  deviceModel     String?
+  deviceType      String?
+  deviceVendor    String?
+  engineName      String?
+  engineVersion   String?
+  osName          String?
+  osVersion       String?
+  cpuArchitecture String?
+  visitInfo       VisitInfo[]
+}
