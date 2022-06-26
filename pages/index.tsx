@@ -3,7 +3,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import { Layout } from '../src/components/layout'
 
-import type { GetStaticProps, NextPage } from 'next'
+import type { GetServerSideProps, GetStaticProps, NextPage } from 'next'
 import { useTranslation } from 'next-i18next'
 
 export const getStaticProps: GetStaticProps = async({ locale }) => {
@@ -16,7 +16,7 @@ export const getStaticProps: GetStaticProps = async({ locale }) => {
 
 const Home: NextPage = () => {
 	const { t } = useTranslation('common')
-	
+
 	return (
 		<Layout>
 			<Center>
