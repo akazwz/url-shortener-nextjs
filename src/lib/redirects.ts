@@ -1,7 +1,6 @@
 // eslint-disable-next-line @next/next/no-server-import-in-page
 import { NextRequest, NextResponse, userAgent } from 'next/server'
-
-import prisma from '../../prisma/client'
+import { supabase } from '../utils/supabaseClient'
 
 export const redirects = async(req: NextRequest) => {
 	const pathName = req.nextUrl.pathname
@@ -21,18 +20,14 @@ export const redirects = async(req: NextRequest) => {
 		return NextResponse.next()
 	}
 	const shortId = pathName.slice(1)
-	return  await redirectShortId(shortId)
+	return await redirectShortId(shortId)
 }
 
 const redirectShortId = async(shortId: string) => {
-	const linkInfo = await prisma.linkInfo.findUnique({
-		where: {
-			shortId,
-		}
-	})
-	if (!linkInfo) {
-		return NextResponse.next()
-	}
-	const url = linkInfo.url
-	return NextResponse.redirect(url)
+	const { data, error } = await supabase
+		.from('link_info')
+		.insert([
+			{ url: 'https://baidu.com', short_id: shortId }
+		])
+	console.log(data)
 }
