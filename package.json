@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prisma:generate": "npx prisma generate"
+    "prisma:generate": "npx prisma generate --data-proxy"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.2.1",
