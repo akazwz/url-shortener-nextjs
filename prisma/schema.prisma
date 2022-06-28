@@ -1,10 +1,10 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("PRISMA_PROXY_URL")
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -68,8 +68,6 @@ model GeoInfo {
   latitude  String?
   longitude String?
   region    String?
-  timezone  String?
-  area      String?
   visitInfo VisitInfo[]
 }
 
