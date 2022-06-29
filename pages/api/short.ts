@@ -22,10 +22,20 @@ const handleShortUrl = async(req: NextApiRequest, res: NextApiResponse) => {
 		})
 	}
 
+	let ip = null
+	const xForward = req.headers['x-forwarded-for']
+	if (typeof xForward === 'string') {
+		ip = xForward
+	} else {
+		if (xForward) {
+			ip = xForward[0]
+		}
+	}
+
 	const insets = {
 		url,
+		ip,
 		short_id: nanoid(7),
-		ip: req.headers['x-forwarded-for'] || req.socket.remoteAddress
 	}
 
 	return res.status(201).json({
