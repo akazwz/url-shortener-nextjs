@@ -34,7 +34,6 @@ const handleGetUrl = async(req: NextApiRequest, res: NextApiResponse) => {
 
 	return res.status(200).json({
 		success: true,
-		short_id,
 		data,
 	})
 }

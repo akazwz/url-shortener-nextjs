@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse, userAgent } from 'next/server'
 
-export default async function middleware(req: NextRequest) {
+const middleware = async(req: NextRequest) => {
 	return await redirects(req)
 }
 
@@ -27,15 +27,28 @@ const redirects = async(req: NextRequest) => {
 const redirectShortId = async(shortId: string, req: NextRequest) => {
 	const host = req.nextUrl.protocol + '//' + req.nextUrl.host
 	try {
+		const ip = req.ip
+		const geo = req.geo
+		const uaInfo = userAgent(req)
+
+		console.log(ip)
+		console.log(geo)
+		console.log(uaInfo)
+
 		const res = await fetch(`${host}/api/short?short_id=${shortId}`)
-		if (res.status !== 200) {
+
+		const { data } = await res.json()
+		if (!data) {
 			return NextResponse.redirect(`${host}/`)
 		}
-		const { data } = await res.json()
-		const { url } = data
+		const { id, url } = data
+
 		return NextResponse.redirect(url)
 	} catch (err: any) {
+		console.log(err)
 		return NextResponse.redirect(`${host}/`)
 	}
 }
+
+export default middleware
 
