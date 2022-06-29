@@ -6,6 +6,8 @@ import { supabase } from '../../utils/supabaseClient'
 
 const handle: NextApiHandler = async(req: NextApiRequest, res: NextApiResponse) => {
 	switch (req.method) {
+		case 'GET':
+			return await handleGetUrl(req, res)
 		case 'POST':
 			return await handleShortUrl(req, res)
 		default:
@@ -13,6 +15,28 @@ const handle: NextApiHandler = async(req: NextApiRequest, res: NextApiResponse) 
 				success: false,
 			})
 	}
+}
+
+const handleGetUrl = async(req: NextApiRequest, res: NextApiResponse) => {
+	const { short_id } = req.query
+
+	const { data } = await supabase
+		.from('links')
+		.select('url')
+		.eq('short_id', short_id)
+		.single()
+
+	if (!data) {
+		return res.status(400).json({
+			success: false,
+		})
+	}
+
+	return res.status(200).json({
+		success: true,
+		short_id,
+		data,
+	})
 }
 
 const handleShortUrl = async(req: NextApiRequest, res: NextApiResponse) => {
