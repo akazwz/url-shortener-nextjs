@@ -2,6 +2,8 @@ import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 import isUrl from 'is-url'
 import { nanoid } from 'nanoid'
 
+import { supabase } from '../../utils/supabaseClient'
+
 const handle: NextApiHandler = async(req: NextApiRequest, res: NextApiResponse) => {
 	switch (req.method) {
 		case 'POST':
@@ -14,6 +16,10 @@ const handle: NextApiHandler = async(req: NextApiRequest, res: NextApiResponse) 
 }
 
 const handleShortUrl = async(req: NextApiRequest, res: NextApiResponse) => {
+	const { user } = await supabase.auth.api.getUser(req.headers.authorization || '')
+	// uid default null
+	const uid = user?.id || null
+
 	const { url } = req.body
 	if (!isUrl(url)) {
 		return res.status(400).json({
@@ -35,12 +41,24 @@ const handleShortUrl = async(req: NextApiRequest, res: NextApiResponse) => {
 	const insets = {
 		url,
 		ip,
+		uid,
 		short_id: nanoid(7),
+	}
+
+	const { error } = await supabase
+		.from('links')
+		.insert(insets, {
+			returning: 'minimal',
+		})
+
+	if (error) {
+		return res.status(400).json({
+			success: false,
+		})
 	}
 
 	return res.status(201).json({
 		success: true,
-		insets,
 	})
 }
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Center, Heading } from '@chakra-ui/react'
+import { Button, Center, Heading } from '@chakra-ui/react'
 import { useTranslation } from 'next-i18next'
+import axios from 'axios'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import { Layout } from '../src/components/layout'
@@ -33,6 +34,23 @@ const Home: NextPage = () => {
 		})
 	}, [])
 
+	const handleShort = () => {
+		axios.post('/api/short', {
+			url: 'https://baidu.com'
+		}, {
+			headers: {
+				authorization: session?.access_token || ''
+			},
+			withCredentials: true,
+		}).then((res) => {
+			console.log(res)
+		}).catch((err) => {
+			console.log(err)
+		}).finally(() => {
+
+		})
+	}
+
 	return (
 		<Layout>
 			<Center>
@@ -40,6 +58,9 @@ const Home: NextPage = () => {
 					!session ? <Auth /> : <Account key={session.user?.id} session={session} />
 				}
 			</Center>
+			<Button onClick={handleShort}>
+				Short
+			</Button>
 		</Layout>
 	)
 }
