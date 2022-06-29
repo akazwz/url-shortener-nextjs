@@ -25,7 +25,7 @@ const handleShortUrl = async(req: NextApiRequest, res: NextApiResponse) => {
 	const insets = {
 		url,
 		short_id: nanoid(7),
-		ip: req.socket.remoteAddress
+		ip: req.headers['x-forwarded-for'] || req.socket.remoteAddress
 	}
 
 	return res.status(201).json({
