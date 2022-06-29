@@ -1,6 +1,4 @@
-// eslint-disable-next-line @next/next/no-server-import-in-page
 import { NextRequest, NextResponse, userAgent } from 'next/server'
-
 
 export const redirects = async(req: NextRequest) => {
 	const pathName = req.nextUrl.pathname
