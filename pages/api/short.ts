@@ -1,7 +1,6 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 import isUrl from 'is-url'
 import { nanoid } from 'nanoid'
-import { supabase } from '../../utils/supabaseClient'
 
 const handle: NextApiHandler = async(req: NextApiRequest, res: NextApiResponse) => {
 	switch (req.method) {
