@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import {
+	Box,
 	Button,
 	Center,
 	HStack,
 	IconButton,
-	Input,
+	Input, Spacer, Stack,
 	useClipboard,
 	useColorModeValue,
 	useToast,
@@ -24,6 +25,7 @@ import type { GetServerSideProps, GetStaticProps, NextPage } from 'next'
 import { Auth } from '../components/Auth'
 import { Account } from '../components/Account'
 import isUrl from 'is-url'
+import { NextChakraLink } from '../src/components/NextChakraLink'
 
 export const getStaticProps: GetStaticProps = async({ locale }) => {
 	return {
@@ -46,19 +48,22 @@ const Home: NextPage = () => {
 	const toast = useToast()
 	const { t } = useTranslation('common')
 
-	const handleShort = () => {
+	const handleShort = async() => {
+		setIsBtnLoading(true)
 		axios.post('/api/short', {
 			url: url,
 		}, {
 			headers: {
-				authorization: ''
+				authorization: await supabase.auth.session()?.access_token || ''
 			},
 		}).then((res) => {
-			console.log(res)
+			const { data } = res.data
+			const { short_url } = data
+			setShortUrl(short_url)
 		}).catch((err) => {
 			console.log(err)
 		}).finally(() => {
-
+			setIsBtnLoading(false)
 		})
 	}
 
@@ -95,6 +100,37 @@ const Home: NextPage = () => {
 						isLoading={isBtnLoading}
 					/>
 				</HStack>
+
+				{shortUrl.length > 0 ? (
+					<>
+						<Box
+							w={{ base: 'xs', sm: 'sm', md: 'md', lg: '3xl' }}
+							p={{ base: 3, md: 7 }}
+							rounded="lg"
+							borderStyle="dotted"
+							borderWidth="3px"
+						>
+							<Stack
+								direction={{ base: 'column', md: 'row' }}
+								alignItems="center"
+								textAlign="center"
+							>
+								<NextChakraLink href={shortUrl} color="blue.500">
+									{shortUrl}
+								</NextChakraLink>
+								<Spacer />
+								<Button
+									w={{ base: '3xs', md: '25%' }}
+									p={3}
+									onClick={onCopy}
+									leftIcon={hasCopied ? <Check fill="#7ed321" /> : <Copy />}
+								>
+									{hasCopied ? t('copied') : t('copy')}
+								</Button>
+							</Stack>
+						</Box>
+					</>
+				) : null}
 			</VStack>
 		</Layout>
 	)

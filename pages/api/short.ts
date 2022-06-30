@@ -1,6 +1,7 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 import isUrl from 'is-url'
 import { nanoid } from 'nanoid'
+import absoluteUrl from 'next-absolute-url'
 
 import { supabase } from '../../utils/supabaseClient'
 import { Links } from '../../types'
@@ -62,11 +63,14 @@ const handleShortUrl = async(req: NextApiRequest, res: NextApiResponse) => {
 		}
 	}
 
+	const short_id = nanoid(7)
+	const { origin } = absoluteUrl(req)
+	const short_url = origin + '/' + short_id
 	const insets = {
 		url,
 		ip,
 		uid,
-		short_id: nanoid(7),
+		short_id,
 	}
 
 	const { error } = await supabase
@@ -83,6 +87,10 @@ const handleShortUrl = async(req: NextApiRequest, res: NextApiResponse) => {
 
 	return res.status(201).json({
 		success: true,
+		data: {
+			short_id,
+			short_url,
+		}
 	})
 }
 
