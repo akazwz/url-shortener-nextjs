@@ -21,23 +21,28 @@ const redirects = async(req: NextRequest) => {
 	if (whiteLists.indexOf(pathName) !== -1) {
 		return NextResponse.next()
 	}
+	// get short id
 	const shortId = pathName.slice(1)
+	// redirects
 	return await redirectShortId(shortId, req)
 }
 
 const redirectShortId = async(shortId: string, req: NextRequest) => {
 	const host = req.nextUrl.protocol + '//' + req.nextUrl.host
 	try {
+		// get link info
+		const shortRes = await fetch(`${host}/api/short?short_id=${shortId}`)
+
+		const { data } = await shortRes.json()
+		// no such link
+		if (!data) {
+			return NextResponse.redirect(`${host}/`)
+		}
+
 		const ip = req.ip
 		const geo = req.geo
 		const ua = userAgent(req)
 
-		const shortRes = await fetch(`${host}/api/short?short_id=${shortId}`)
-
-		const { data } = await shortRes.json()
-		if (!data) {
-			return NextResponse.redirect(`${host}/`)
-		}
 		const { id, url } = data
 
 		const visits: Visits = {
@@ -62,16 +67,14 @@ const redirectShortId = async(shortId: string, req: NextRequest) => {
 			ua: ua.ua
 		}
 
-		const trackRes = await fetch(`${host}/api/track`, {
+		// record visits
+		await fetch(`${host}/api/track`, {
 			method: 'POST',
 			body: JSON.stringify({
 				visits,
 			})
 		})
-
-		console.log('trackRes:')
-		console.log(trackRes)
-
+		// redirects
 		return NextResponse.redirect(url)
 	} catch (err: any) {
 		console.log(err)

@@ -24,7 +24,7 @@ const handleGetUrl = async(req: NextApiRequest, res: NextApiResponse) => {
 
 	const { data } = await supabase
 		.from('links')
-		.select('url')
+		.select('id,url')
 		.eq('short_id', short_id)
 		.single()
 
