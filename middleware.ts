@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse, userAgent } from 'next/server'
+import { Visits } from './types'
 
 const middleware = async(req: NextRequest) => {
 	return await redirects(req)
@@ -29,19 +30,47 @@ const redirectShortId = async(shortId: string, req: NextRequest) => {
 	try {
 		const ip = req.ip
 		const geo = req.geo
-		const uaInfo = userAgent(req)
+		const ua = userAgent(req)
 
-		console.log(ip)
-		console.log(geo)
-		console.log(uaInfo)
+		const shortRes = await fetch(`${host}/api/short?short_id=${shortId}`)
 
-		const res = await fetch(`${host}/api/short?short_id=${shortId}`)
-
-		const { data } = await res.json()
+		const { data } = await shortRes.json()
 		if (!data) {
 			return NextResponse.redirect(`${host}/`)
 		}
 		const { id, url } = data
+
+		const visits: Visits = {
+			browser_name: ua.browser.name,
+			browser_version: ua.browser.version,
+			city: geo?.city,
+			country: geo?.country,
+			cpu_architecture: ua.cpu.architecture,
+			device_model: ua.device.model,
+			device_type: ua.device.type,
+			device_vendor: ua.device.vendor,
+			engine_name: ua.engine.name,
+			engine_version: ua.engine.version,
+			ip: ip,
+			is_bot: ua.isBot,
+			latitude: geo?.latitude,
+			link_id: id,
+			os_name: ua.os.name,
+			os_version: ua.os.version,
+			region: geo?.region,
+			short_id: shortId,
+			ua: ua.ua
+		}
+
+		const trackRes = await fetch(`${host}/api/track`, {
+			method: 'POST',
+			body: JSON.stringify({
+				visits,
+			})
+		})
+
+		console.log('trackRes:')
+		console.log(trackRes)
 
 		return NextResponse.redirect(url)
 	} catch (err: any) {

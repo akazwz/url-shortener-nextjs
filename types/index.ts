@@ -17,8 +17,8 @@ export interface Links{
 }
 
 export interface Visits{
-	id: string
-	created_at: string
+	/*id: string
+	created_at: string*/
 	ip?: string
 	link_id: string
 	city?: string
