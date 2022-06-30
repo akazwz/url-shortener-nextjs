@@ -4,6 +4,8 @@ import { nanoid } from 'nanoid'
 
 import { supabase } from '../../utils/supabaseClient'
 
+import { Links } from '../../types'
+
 const handle: NextApiHandler = async(req: NextApiRequest, res: NextApiResponse) => {
 	switch (req.method) {
 		case 'GET':
@@ -41,7 +43,7 @@ const handleGetUrl = async(req: NextApiRequest, res: NextApiResponse) => {
 const handleShortUrl = async(req: NextApiRequest, res: NextApiResponse) => {
 	const { user } = await supabase.auth.api.getUser(req.headers.authorization || '')
 	// uid default null
-	const uid = user?.id || null
+	const uid = user?.id
 
 	const { url } = req.body
 	if (!isUrl(url)) {
@@ -51,7 +53,7 @@ const handleShortUrl = async(req: NextApiRequest, res: NextApiResponse) => {
 		})
 	}
 
-	let ip = null
+	let ip = undefined
 	const xForward = req.headers['x-forwarded-for']
 	if (typeof xForward === 'string') {
 		ip = xForward
@@ -69,7 +71,7 @@ const handleShortUrl = async(req: NextApiRequest, res: NextApiResponse) => {
 	}
 
 	const { error } = await supabase
-		.from('links')
+		.from<Links>('links')
 		.insert(insets, {
 			returning: 'minimal',
 		})
