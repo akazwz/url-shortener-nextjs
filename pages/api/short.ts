@@ -3,7 +3,6 @@ import isUrl from 'is-url'
 import { nanoid } from 'nanoid'
 
 import { supabase } from '../../utils/supabaseClient'
-
 import { Links } from '../../types'
 
 const handle: NextApiHandler = async(req: NextApiRequest, res: NextApiResponse) => {
