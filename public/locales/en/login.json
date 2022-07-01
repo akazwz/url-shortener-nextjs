@@ -1,0 +1,14 @@
+{
+  "login": "Sign In",
+  "username": "Username",
+  "password": "Password",
+  "forgetPassword": "Forget password?",
+  "account": "Don't have an account?",
+  "signup": "Sign Up",
+  "success": "Sign In Success",
+  "error": "Sign In Error",
+  "form": {
+    "username": "Username length must >= 3",
+    "password": "Password length must >= 6"
+  }
+}

@@ -1,36 +1,32 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import axios from 'axios'
+import isUrl from 'is-url'
+import { GetServerSideProps, GetStaticProps, NextPage } from 'next'
 import {
 	Box,
 	Button,
-	Center,
 	HStack,
 	IconButton,
-	Input, Spacer, Stack,
+	Input,
+	Spacer,
+	Stack,
+	VStack,
 	useClipboard,
 	useColorModeValue,
 	useToast,
-	VStack
 } from '@chakra-ui/react'
 import { useTranslation } from 'next-i18next'
-import axios from 'axios'
 import { Check, Copy, Lightning } from '@icon-park/react'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import { Layout } from '../src/components/layout'
-
-import { supabase } from '../utils/supabaseClient'
-
-import type { Session } from '@supabase/supabase-js'
-import type { GetServerSideProps, GetStaticProps, NextPage } from 'next'
-import { Auth } from '../components/Auth'
-import { Account } from '../components/Account'
-import isUrl from 'is-url'
 import { NextChakraLink } from '../src/components/NextChakraLink'
+import { supabase } from '../utils/supabaseClient'
 
 export const getStaticProps: GetStaticProps = async({ locale }) => {
 	return {
 		props: {
-			...(await serverSideTranslations(locale || 'en', ['common'])),
+			...(await serverSideTranslations(locale || 'en', ['common', 'index'])),
 		},
 	}
 }
@@ -46,7 +42,7 @@ const Home: NextPage = () => {
 	const bgColor = useColorModeValue('gray.200', 'rgba(132,133,141,0.12)')
 
 	const toast = useToast()
-	const { t } = useTranslation('common')
+	const { t } = useTranslation('index')
 
 	const handleShort = async() => {
 		setIsBtnLoading(true)
