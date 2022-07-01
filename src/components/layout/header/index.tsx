@@ -56,8 +56,6 @@ const NotAuthedLinks = () => {
 export const Header = () => {
 	const { isAuth } = useAuth()
 
-	const [isLoading, setIsLoading] = useState(false)
-
 	const Links = () => {
 		return (
 			<>
@@ -79,9 +77,7 @@ export const Header = () => {
 			<HStack>
 				<Logo size="37px" />
 				<Spacer />
-				{
-					isLoading ? <LoadingLinks /> : <Links />
-				}
+				<Links />
 			</HStack>
 		</Box>
 	)
