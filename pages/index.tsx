@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios'
 import isUrl from 'is-url'
-import { GetServerSideProps, GetStaticProps, NextPage } from 'next'
+import { GetStaticProps, NextPage } from 'next'
 import {
 	Box,
 	Button,
