@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Box, Button, HStack, Skeleton, Spacer, useColorModeValue } from '@chakra-ui/react'
 import { useTranslation } from 'next-i18next'
 
@@ -52,6 +53,24 @@ const NotAuthedLinks = () => {
 
 export const Header = () => {
 	const user = supabase.auth.user()
+	const [isAuth, setIsAuth] = useState(false)
+	const [isLoading, setIsLoading] = useState(true)
+
+	useEffect(() => {
+		setIsAuth(!!user)
+		setIsLoading(false)
+	}, [user])
+
+	const Links = ()=>{
+		return (
+			<>
+				{
+					isAuth ? <AuthedLinks /> : <NotAuthedLinks />
+				}
+			</>
+		)
+	}
+
 	return (
 		<Box
 			as="header"
@@ -64,7 +83,7 @@ export const Header = () => {
 				<Logo size="37px" />
 				<Spacer />
 				{
-					user ? <AuthedLinks /> : <NotAuthedLinks />
+					isLoading ? <LoadingLinks /> : <Links />
 				}
 			</HStack>
 		</Box>
