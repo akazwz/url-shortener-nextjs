@@ -1,13 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Box, Button, HStack, Skeleton, Spacer, useColorModeValue } from '@chakra-ui/react'
 import { useTranslation } from 'next-i18next'
 
 import { Logo } from '../../Logo'
-import { supabase } from '../../../../utils/supabaseClient'
 import { NextChakraLink } from '../../NextChakraLink'
+import { useAuth } from '../../../hooks/useAuth'
 
 const AuthedLinks = () => {
 	const { t } = useTranslation('common')
+
+	const { signOut } = useAuth()
+
 	return (
 		<>
 			<NextChakraLink href={'/dashboard'}>
@@ -16,8 +19,7 @@ const AuthedLinks = () => {
 			<Button
 				variant={'outline'}
 				borderColor={useColorModeValue('black', 'white')}
-				onClick={() => {
-				}}
+				onClick={signOut}
 			>
 				{t('header.signOut')}
 			</Button>
@@ -52,16 +54,11 @@ const NotAuthedLinks = () => {
 }
 
 export const Header = () => {
-	const user = supabase.auth.user()
-	const [isAuth, setIsAuth] = useState(false)
-	const [isLoading, setIsLoading] = useState(true)
+	const { isAuth } = useAuth()
 
-	useEffect(() => {
-		setIsAuth(!!user)
-		setIsLoading(false)
-	}, [user])
+	const [isLoading, setIsLoading] = useState(false)
 
-	const Links = ()=>{
+	const Links = () => {
 		return (
 			<>
 				{

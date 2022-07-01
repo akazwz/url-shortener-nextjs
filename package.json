@@ -26,7 +26,8 @@
     "next-absolute-url": "^1.2.2",
     "next-i18next": "^11.0.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "recoil": "^0.7.4"
   },
   "devDependencies": {
     "@babel/core": "^7.18.5",
