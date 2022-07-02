@@ -8,7 +8,7 @@ export const useAuth = () => {
 	const [isAuth, setIsAuth] = useRecoilState(isAuthState)
 
 	useEffect(() => {
-		const session = supabase.auth.session
+		const session = supabase.auth.session()
 		setIsAuth(!!session)
 		supabase.auth.onAuthStateChange((_event, session) => {
 			setIsAuth(!!session)
@@ -16,8 +16,10 @@ export const useAuth = () => {
 	}, [setIsAuth])
 
 	const signOut = async() => {
-		await supabase.auth.signOut()
-		setIsAuth(false)
+		const { error } = await supabase.auth.signOut()
+		if (!error) {
+			setIsAuth(false)
+		}
 	}
 
 	return {

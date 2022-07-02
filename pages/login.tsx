@@ -16,6 +16,7 @@ import {
 import { useRouter } from 'next/router'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
+import { Github } from '@icon-park/react'
 
 import { NextChakraLink } from '../src/components/NextChakraLink'
 import { Logo } from '../src/components/Logo'
@@ -47,6 +48,21 @@ const Login: NextPage = () => {
 			const { error } = await supabase.auth.signIn({ email })
 			if (error) throw error
 			alert('check your email for the login link')
+		} catch (err: any) {
+			alert(err.message)
+		} finally {
+			setLoading(false)
+		}
+	}
+
+	const handleLoginByGithub = async() => {
+		try {
+			setLoading(true)
+			const { error } = await
+				supabase.auth.signIn({
+					provider: 'github'
+				})
+			if (error) throw error
 		} catch (err: any) {
 			alert(err.message)
 		} finally {
@@ -92,7 +108,7 @@ const Login: NextPage = () => {
 							</NextChakraLink>
 						</Stack>
 						<Button
-							colorScheme={'blue'}
+							colorScheme={'teal'}
 							variant={'solid'}
 							isLoading={loading}
 							onClick={handleLogin}
@@ -106,6 +122,13 @@ const Login: NextPage = () => {
 							</NextChakraLink>
 						</HStack>
 					</Stack>
+					<Button
+						colorScheme={'blue'}
+						onClick={handleLoginByGithub}
+						rightIcon={<Github />}
+					>
+						Sign In By Github
+					</Button>
 				</Stack>
 			</VStack>
 		</Stack>

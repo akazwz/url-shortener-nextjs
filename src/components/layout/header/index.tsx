@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { Box, Button, HStack, Skeleton, Spacer, useColorModeValue } from '@chakra-ui/react'
+import { Box, Button, HStack, Spacer, useColorModeValue } from '@chakra-ui/react'
 import { useTranslation } from 'next-i18next'
 
 import { Logo } from '../../Logo'
@@ -12,7 +11,7 @@ const AuthedLinks = () => {
 	const { signOut } = useAuth()
 
 	return (
-		<>
+		<HStack spacing={7}>
 			<NextChakraLink href={'/dashboard'}>
 				{t('header.dashboard')}
 			</NextChakraLink>
@@ -23,23 +22,14 @@ const AuthedLinks = () => {
 			>
 				{t('header.signOut')}
 			</Button>
-		</>
-	)
-}
-
-const LoadingLinks = () => {
-	return (
-		<>
-			<Skeleton height={'25px'} width={'50px'} />
-			<Skeleton height={'25px'} width={'50px'} />
-		</>
+		</HStack>
 	)
 }
 
 const NotAuthedLinks = () => {
 	const { t } = useTranslation('common')
 	return (
-		<>
+		<HStack spacing={7}>
 			<NextChakraLink href={'/login'}>{t('header.login')}</NextChakraLink>
 			<NextChakraLink href={'/signup'}>
 				<Button
@@ -49,7 +39,7 @@ const NotAuthedLinks = () => {
 					{t('header.signup')}
 				</Button>
 			</NextChakraLink>
-		</>
+		</HStack>
 	)
 }
 
