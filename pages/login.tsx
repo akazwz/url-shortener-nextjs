@@ -7,13 +7,13 @@ import {
 	Input,
 	FormLabel,
 	Button,
-	HStack,
 	Text,
 	Box,
+	Divider,
 	useToast,
 	useColorModeValue,
 } from '@chakra-ui/react'
-import { useRouter } from 'next/router'
+import { NextPage, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import { Github } from '@icon-park/react'
@@ -21,7 +21,6 @@ import { Github } from '@icon-park/react'
 import { NextChakraLink } from '../src/components/NextChakraLink'
 import { Logo } from '../src/components/Logo'
 
-import type { NextPage, GetStaticProps } from 'next'
 import { supabase } from '../utils/supabaseClient'
 
 export const getStaticProps: GetStaticProps = async({ locale }) => {
@@ -37,7 +36,6 @@ const Login: NextPage = () => {
 	const [loading, setLoading] = useState(false)
 
 	const toast = useToast()
-	const router = useRouter()
 	const { t } = useTranslation('login')
 
 	const bgColor = useColorModeValue('gray.100', 'blackAlpha.300')
@@ -47,9 +45,19 @@ const Login: NextPage = () => {
 			setLoading(true)
 			const { error } = await supabase.auth.signIn({ email })
 			if (error) throw error
-			alert('check your email for the login link')
+			toast({
+				title: t('success'),
+				status: 'success',
+				duration: 3000,
+				isClosable: true,
+			})
 		} catch (err: any) {
-			alert(err.message)
+			toast({
+				title: t('error'),
+				status: 'error',
+				duration: 3000,
+				isClosable: true,
+			})
 		} finally {
 			setLoading(false)
 		}
@@ -64,7 +72,12 @@ const Login: NextPage = () => {
 				})
 			if (error) throw error
 		} catch (err: any) {
-			alert(err.message)
+			toast({
+				title: t('error'),
+				status: 'error',
+				duration: 3000,
+				isClosable: true,
+			})
 		} finally {
 			setLoading(false)
 		}
@@ -88,7 +101,7 @@ const Login: NextPage = () => {
 						{t('login')}
 					</Heading>
 					<FormControl id="email">
-						<FormLabel>{t('email')}</FormLabel>
+						<FormLabel>{t('email')}:</FormLabel>
 						<Input
 							type="email"
 							onChange={(e) => {
@@ -98,36 +111,25 @@ const Login: NextPage = () => {
 					</FormControl>
 
 					<Stack spacing={6}>
-						<Stack
-							direction={{ base: 'column', sm: 'row' }}
-							align={'start'}
-							justify={'space-between'}
-						>
-							<NextChakraLink href={'/password_reset'} color={'blue.500'}>
-								{t('forgetPassword')}
-							</NextChakraLink>
-						</Stack>
 						<Button
 							colorScheme={'teal'}
 							variant={'solid'}
 							isLoading={loading}
 							onClick={handleLogin}
 						>
-							{t('login')}
+							{t('loginPasswordsLess')}
 						</Button>
-						<HStack spacing="1" justify="center">
-							<Text>{t('account')}</Text>
-							<NextChakraLink href={'/signup'} color={'blue.500'}>
-								{t('signup')}
-							</NextChakraLink>
-						</HStack>
 					</Stack>
+					<Divider />
+					<Text align={'center'} fontSize={'lg'} fontWeight={'bold'}>
+						{t('or')}
+					</Text>
 					<Button
 						colorScheme={'blue'}
 						onClick={handleLoginByGithub}
 						rightIcon={<Github />}
 					>
-						Sign In By Github
+						{t('signInByGithub')}
 					</Button>
 				</Stack>
 			</VStack>

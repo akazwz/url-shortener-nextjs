@@ -30,13 +30,12 @@ const NotAuthedLinks = () => {
 	const { t } = useTranslation('common')
 	return (
 		<HStack spacing={7}>
-			<NextChakraLink href={'/login'}>{t('header.login')}</NextChakraLink>
-			<NextChakraLink href={'/signup'}>
+			<NextChakraLink href={'/login'}>
 				<Button
 					variant={'outline'}
 					borderColor={useColorModeValue('black', 'white')}
 				>
-					{t('header.signup')}
+					{t('header.login')}
 				</Button>
 			</NextChakraLink>
 		</HStack>
