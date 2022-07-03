@@ -58,7 +58,7 @@ const Links = ({ links }: { links: LinkProps[] }) => {
 				</HStack>
 				<HStack spacing={7}>
 					<NextChakraLink
-						href={'http://localhost:5000/' + link.shortId}
+						href={'http://localhost:3000/' + link.shortId}
 						color={'blue.500'}
 					>
 						{link.shortId}
