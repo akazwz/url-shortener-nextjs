@@ -11,25 +11,30 @@ import {
 	useColorModeValue,
 } from '@chakra-ui/react'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import { User } from '@supabase/supabase-js'
+
 import { supabase } from '../../utils/supabaseClient'
 
 export const UserMenu = () => {
 	const bgColor = useColorModeValue('white', 'black')
 
+	// for server-side and client side not same
+	const [user, setUser] = useState<User | null>(null)
+
 	const router = useRouter()
 
-	const user = supabase.auth.user()
-
 	useEffect(() => {
-		if (!user) {
+		const u = supabase.auth.user()
+		setUser(u)
+		if (!u) {
 			router.push('/login').then()
 		}
 	}, [router, user])
 
 	return (
-		<>
+		<Box>
 			<Menu>
 				<MenuButton as={Box} variant={'ghost'}>
 					<Avatar src={''} size="sm" />
@@ -46,6 +51,6 @@ export const UserMenu = () => {
 					</VStack>
 				</MenuList>
 			</Menu>
-		</>
+		</Box>
 	)
 }
