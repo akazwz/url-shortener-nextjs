@@ -44,13 +44,13 @@ const Home: NextPage = () => {
 	const toast = useToast()
 	const { t } = useTranslation('index')
 
-	const handleShort = async() => {
+	const handleShort = () => {
 		setIsBtnLoading(true)
 		axios.post('/api/short', {
 			url: url,
 		}, {
 			headers: {
-				authorization: await supabase.auth.session()?.access_token || ''
+				authorization: supabase.auth.session()?.access_token || ''
 			},
 		}).then((res) => {
 			const { data } = res.data

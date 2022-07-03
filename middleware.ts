@@ -15,7 +15,7 @@ const redirects = async(req: NextRequest) => {
 		return NextResponse.next()
 	}
 	const whiteLists = [
-		'/', '/login', '/dashboard', '/favicon.ico'
+		'/', '/login', '/dashboard', '/dashboard/links', '/favicon.ico'
 	]
 
 	if (whiteLists.indexOf(pathName) !== -1) {

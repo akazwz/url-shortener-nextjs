@@ -9,7 +9,6 @@ interface IProps extends FlexProps{
 }
 
 export const DashboardHeader = ({ onOpen, ...rest }: IProps) => {
-
 	return (
 		<Flex
 			ml={{ base: 0, md: 60 }}
