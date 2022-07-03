@@ -5,6 +5,7 @@ import {
 	HStack,
 	Spacer,
 	Divider,
+	BoxProps,
 	useColorModeValue,
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
@@ -12,8 +13,6 @@ import { useRouter } from 'next/router'
 import { Logo } from '../../Logo'
 import { LanguagesSwitch } from '../../LanguagesSwitch'
 import { ColorModeToggle } from '../../ColorModeToggle'
-
-import type { BoxProps } from '@chakra-ui/react'
 
 interface SidebarProps extends BoxProps{
 	onClose: () => void;
@@ -32,6 +31,7 @@ export const NavLinks = () => {
 	const { pathname, push } = useRouter()
 
 	const LinkList: LinkProps[] = [
+		{ name: 'Dashboard', route: '/dashboard', icon: '' },
 		{ name: 'Links', route: '/dashboard/links', icon: '' },
 		{ name: 'Visits', route: '/dashboard/visits', icon: '' },
 		{ name: 'Analysis', route: '/dashboard/analysis', icon: '' },
