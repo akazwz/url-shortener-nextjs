@@ -21,11 +21,45 @@ const handleGetOverview = async(req: NextApiRequest, res: NextApiResponse) => {
 	}
 	const { data } = await supabase
 		.from('links')
-		.select('id', { count: 'exact', head: true })
+		.select('id')
 		.eq('uid', user?.id)
+
+	const links_count = data?.length || 0
+
+	const ids: any[] = []
+
+	data?.map((link) => {
+		ids.push(link.id)
+	})
+
+	const { count: visits_count } = await supabase
+		.from('visits')
+		.select('id', { count: 'exact', head: true })
+		.in('link_id', ids)
+
+	const pcOsNameList = ['Windows', 'Mac']
+	const { count: pc_visits_count } = await supabase
+		.from('visits')
+		.select('id', { count: 'exact', head: true })
+		.in('link_id', ids)
+		.in('os_name', pcOsNameList)
+
+	const mobileOsNameList = ['Android', 'IOS']
+	const { count: mobile_visits_count } = await supabase
+		.from('visits')
+		.select('id', { count: 'exact', head: true })
+		.in('link_id', ids)
+		.in('os_name', mobileOsNameList)
 
 	return res.status(200).json({
 		success: true,
-		data,
+		data: {
+			links_count,
+			visits_count,
+			pc_visits_count,
+			mobile_visits_count,
+		}
 	})
 }
+
+export default handle
