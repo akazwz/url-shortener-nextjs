@@ -21,12 +21,14 @@ const MyMap = ({ points }: MapProps) => {
 		<MapContainer
 			center={[39.9, 116.3]}
 			zoom={3}
+			minZoom={2}
+			maxZoom={13}
 			style={{ height: '45vh', width: '100%' }}
 			attributionControl={false}
 			placeholder={<MapPlaceHolder />}
 		>
 			<LayersControl position="topright">
-				<LayersControl.BaseLayer checked name="OpenStreetMap.Mapnik">
+				<LayersControl.BaseLayer checked name="OpenStreetMap">
 					<TileLayer
 						url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 					/>
