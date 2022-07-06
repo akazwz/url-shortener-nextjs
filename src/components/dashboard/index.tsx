@@ -121,7 +121,19 @@ export const MostViewedLinks = ({ links }: MostViewedLinksProps) => {
 			<Heading>
 				Top 5 Links
 			</Heading>
-			<Links links={links} />
+			{
+				links.length < 1
+					? (
+						<VStack spacing={5}>
+							<Skeleton width={'200px'} height={'50px'} />
+							<Skeleton width={'200px'} height={'50px'} />
+							<Skeleton width={'200px'} height={'50px'} />
+							<Skeleton width={'200px'} height={'50px'} />
+							<Skeleton width={'200px'} height={'50px'} />
+						</VStack>
+					)
+					: <Links links={links} />
+			}
 		</VStack>
 	)
 }
