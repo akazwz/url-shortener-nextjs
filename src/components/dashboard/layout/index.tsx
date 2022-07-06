@@ -16,6 +16,8 @@ import { DashboardHeader } from './Header'
 import { NavLinks, Sidebar } from './Sidebar'
 import { LanguagesSwitch } from '../../LanguagesSwitch'
 import { ColorModeToggle } from '../../ColorModeToggle'
+import { useRecoilState } from 'recoil'
+import { isMiniState } from '../../../state'
 
 interface IProps{
 	children: ReactNode;
@@ -24,7 +26,7 @@ interface IProps{
 export const DashboardLayout = ({ children }: IProps) => {
 	const { isOpen, onOpen, onClose } = useDisclosure()
 	const drawerBgColor = useColorModeValue('white', 'black')
-	const [mini, setMini] = useState(false)
+	const [mini, setMini] = useRecoilState(isMiniState)
 
 	return (
 		<Box minH="100vh">

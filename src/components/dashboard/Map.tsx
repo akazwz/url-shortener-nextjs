@@ -1,6 +1,6 @@
 import { LatLngTuple } from 'leaflet'
 import { MapContainer, LayersControl, TileLayer, CircleMarker } from 'react-leaflet'
-import { Skeleton } from '@chakra-ui/react'
+import { Box, Skeleton } from '@chakra-ui/react'
 
 import 'leaflet/dist/leaflet.css'
 
@@ -23,7 +23,7 @@ const MyMap = ({ points }: MapProps) => {
 			zoom={3}
 			minZoom={2}
 			maxZoom={13}
-			style={{ height: '45vh', width: '100%' }}
+			style={{ height: '45vh' }}
 			attributionControl={false}
 			placeholder={<MapPlaceHolder />}
 		>

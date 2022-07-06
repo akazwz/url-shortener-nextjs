@@ -1,6 +1,7 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 
 import { supabase } from '../../utils/supabaseClient'
+import { map } from 'leaflet'
 
 const handle: NextApiHandler = async(req: NextApiRequest, res: NextApiResponse) => {
 	switch (req.method) {
@@ -30,6 +31,13 @@ const handleGetLinks = async(req: NextApiRequest, res: NextApiResponse) => {
 		)
 		`)
 		.eq('uid', user?.id)
+
+	const { sort_by } = req.query
+
+	if (sort_by === 'visits_count') {
+		/// sort links by visits count
+		links?.sort((a, b) => {return b.visits[0].count - a.visits[0].count})
+	}
 
 	return res.status(200).json({
 		success: true,

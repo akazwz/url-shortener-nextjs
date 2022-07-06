@@ -18,7 +18,7 @@ import { DashboardLayout } from '../../src/components/dashboard/layout'
 import { NextChakraLink } from '../../src/components/NextChakraLink'
 import { supabase } from '../../utils/supabaseClient'
 
-interface LinkProps{
+export interface LinkProps{
 	id: string;
 	createdAt: Date;
 	updatedAt: Date;
