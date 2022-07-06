@@ -9,12 +9,11 @@ import {
 	useColorModeValue,
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
-import IconPark from '@icon-park/react/lib/all'
+import IconPark, { IconType } from '@icon-park/react/lib/all'
 
 import { Logo } from '../../Logo'
 import { LanguagesSwitch } from '../../LanguagesSwitch'
 import { ColorModeToggle } from '../../ColorModeToggle'
-import { FileSuccess } from '@icon-park/react'
 
 interface SidebarProps extends BoxProps{
 	onClose: () => void;
@@ -25,7 +24,7 @@ interface SidebarProps extends BoxProps{
 interface LinkProps{
 	name: string;
 	route: string;
-	icon: string;
+	icon: IconType;
 }
 
 interface NavLinksProps{
@@ -44,10 +43,10 @@ export const NavLinks = ({ mini }: NavLinksProps) => {
 	const { pathname, push } = useRouter()
 
 	const LinkList: LinkProps[] = [
-		{ name: 'Dashboard', route: '/dashboard', icon: 'FileSuccess' },
-		{ name: 'Links', route: '/dashboard/links', icon: 'Picture' },
-		{ name: 'Visits', route: '/dashboard/visits', icon: 'Like' },
-		{ name: 'Analysis', route: '/dashboard/analysis', icon: 'Strongbox' },
+		{ name: 'Dashboard', route: '/dashboard', icon: 'Dashboard' },
+		{ name: 'Links', route: '/dashboard/links', icon: 'Link' },
+		{ name: 'Visits', route: '/dashboard/visits', icon: 'Click' },
+		{ name: 'Analysis', route: '/dashboard/analysis', icon: 'Analysis' },
 	]
 
 	return (
@@ -72,7 +71,7 @@ export const NavLinks = ({ mini }: NavLinksProps) => {
 						push(link.route).then()
 					}}
 				>
-					<Box>
+					<Box mx={'auto'} textAlign={'left'}>
 						{
 							mini
 								? <IconPark type={link.icon} size="23px" />
@@ -94,7 +93,9 @@ export const SidebarFooter = ({ mini, setMini }: SidebarFooterProps) => {
 
 	const MaxControl = () => {
 		return (
-			<IconPark type={'Right'} size={'24px'} onClick={() => setMini(false)} />
+			<Box mx={'auto'}>
+				<IconPark type={'Right'} size={'24px'} onClick={() => setMini(false)} />
+			</Box>
 		)
 	}
 
