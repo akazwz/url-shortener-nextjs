@@ -7,13 +7,14 @@ import { supabase } from '../../utils/supabaseClient'
 import { OverviewProps, Overview, MostViewedLinks } from '../../src/components/dashboard'
 import { LinkProps } from './links'
 import { Box, Flex, HStack, Stack } from '@chakra-ui/react'
+import { VisitsPoint } from '../../src/components/dashboard/Map'
 
 const MyMap = dynamic(() => import('../../src/components/dashboard/Map'), {
 	ssr: false,
 })
 
 const DashboardIndex = () => {
-	const [points, setPoints] = useState<[number, number][]>()
+	const [points, setPoints] = useState<VisitsPoint[]>([])
 	const [overview, setOverview] = useState<OverviewProps>({
 		links_count: 0,
 		visits_count: 0,

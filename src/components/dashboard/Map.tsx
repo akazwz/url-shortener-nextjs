@@ -12,8 +12,13 @@ const MapPlaceHolder = () => {
 	)
 }
 
+export interface VisitsPoint{
+	latLng: LatLngTuple
+	id: string
+}
+
 export interface MapProps{
-	points?: LatLngTuple[]
+	points?: VisitsPoint[]
 }
 
 const MyMap = ({ points }: MapProps) => {
@@ -44,7 +49,7 @@ const MyMap = ({ points }: MapProps) => {
 			{
 				points?.map((point, index) => {
 					return (
-						<CircleMarker key={'points' + index} center={point} />
+						<CircleMarker key={'points' + index} center={point.latLng} />
 					)
 				})
 			}

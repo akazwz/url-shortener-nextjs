@@ -32,6 +32,11 @@ const handleGetOverview = async(req: NextApiRequest, res: NextApiResponse) => {
 		ids.push(link.id)
 	})
 
+	const { data: visits } = await supabase
+		.from('visits')
+		.select(`ip`,)
+		.in('link_id', ids)
+
 	const { count: visits_count } = await supabase
 		.from('visits')
 		.select('id', { count: 'exact', head: true })
@@ -56,6 +61,7 @@ const handleGetOverview = async(req: NextApiRequest, res: NextApiResponse) => {
 		data: {
 			links_count,
 			visits_count,
+			visits,
 			pc_visits_count,
 			mobile_visits_count,
 		}
