@@ -81,13 +81,14 @@ const DashboardIndex = () => {
 				mb={6}
 				ml={3}
 				mr={3}
+				spacing={3}
 				direction={{ base: 'column', md: 'row' }}
 			>
 				<MostViewedLinks links={links} />
 				<Box
 					w="100%"
 					rounded="lg"
-					boxShadow="dark-lg"
+					boxShadow="md"
 					overflow="hidden"
 				>
 					<MyMap points={points} />

@@ -1,7 +1,6 @@
 import {
-	Divider,
 	Heading,
-	HStack, IconButton,
+	HStack,
 	Image,
 	SimpleGrid,
 	Skeleton,
@@ -11,10 +10,8 @@ import {
 	Text,
 	VStack
 } from '@chakra-ui/react'
-import { Analysis, Click, Computer, Link, Phone, PreviewOpen } from '@icon-park/react'
+import { Click, Computer, Link, Phone, PreviewOpen } from '@icon-park/react'
 import { LinkProps } from '../../../pages/dashboard/links'
-import { useRouter } from 'next/router'
-import dayjs from 'dayjs'
 import { NextChakraLink } from '../NextChakraLink'
 
 export interface OverviewProps{
@@ -35,28 +32,28 @@ export const Overview = ({ overviewProps }: { overviewProps: OverviewProps }) =>
 			gap={6}
 			m={3}
 		>
-			<HStack padding={7} bg={'blue.500'} rounded={'lg'}>
+			<HStack padding={7} bg={'blue.500'} rounded={'lg'} boxShadow={'md'}>
 				<Stat>
 					<StatLabel>Total Links</StatLabel>
 					<StatNumber>{overviewProps.loading ? <Loading /> : overviewProps.links_count}</StatNumber>
 				</Stat>
 				<Link size={37} />
 			</HStack>
-			<HStack padding={7} bg={'blue.500'} rounded={'lg'}>
+			<HStack padding={7} bg={'blue.500'} rounded={'lg'} boxShadow={'md'}>
 				<Stat>
 					<StatLabel>Total Visits</StatLabel>
 					<StatNumber>{overviewProps.loading ? <Loading /> : overviewProps.visits_count}</StatNumber>
 				</Stat>
 				<Click size={37} />
 			</HStack>
-			<HStack padding={7} bg={'blue.500'} rounded={'lg'}>
+			<HStack padding={7} bg={'blue.500'} rounded={'lg'} boxShadow={'md'}>
 				<Stat>
 					<StatLabel>PC Visits</StatLabel>
 					<StatNumber>{overviewProps.loading ? <Loading /> : overviewProps.pc_visits_count}</StatNumber>
 				</Stat>
 				<Computer size={37} />
 			</HStack>
-			<HStack padding={7} bg={'blue.500'} rounded={'lg'}>
+			<HStack padding={7} bg={'blue.500'} rounded={'lg'} boxShadow={'md'}>
 				<Stat>
 					<StatLabel>Mobile Visits</StatLabel>
 					<StatNumber>{overviewProps.loading ? <Loading /> : overviewProps.mobile_visits_count}</StatNumber>
@@ -116,6 +113,8 @@ export const MostViewedLinks = ({ links }: MostViewedLinksProps) => {
 		<VStack
 			h={'45vh'}
 			spacing={3}
+			rounded={'lg'}
+			boxShadow={'md'}
 			w={{ base: '100%', md: '300px' }}
 		>
 			<Heading>
