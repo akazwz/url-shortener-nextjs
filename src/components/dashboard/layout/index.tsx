@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 import {
 	Box,
 	VStack,
@@ -24,11 +24,14 @@ interface IProps{
 export const DashboardLayout = ({ children }: IProps) => {
 	const { isOpen, onOpen, onClose } = useDisclosure()
 	const drawerBgColor = useColorModeValue('white', 'black')
+	const [mini, setMini] = useState(false)
 
 	return (
 		<Box minH="100vh">
 			<Sidebar
 				onClose={onClose}
+				mini={mini}
+				setMini={setMini}
 				display={{ base: 'none', md: 'block' }}
 			/>
 			<Drawer
@@ -47,13 +50,17 @@ export const DashboardLayout = ({ children }: IProps) => {
 								<LanguagesSwitch />
 								<ColorModeToggle />
 							</HStack>
-							<NavLinks />
+							<NavLinks mini={false} />
 						</VStack>
 					</DrawerBody>
 				</DrawerContent>
 			</Drawer>
-			<DashboardHeader onOpen={onOpen} height={'6vh'} />
-			<Box as="main" ml={{ base: 0, md: 60 }} p={3}>
+			<DashboardHeader
+				onOpen={onOpen}
+				mini={mini}
+				height={'6vh'}
+			/>
+			<Box as="main" ml={{ base: 0, md: mini ? 20 : 60 }} p={3}>
 				{children}
 			</Box>
 		</Box>
