@@ -6,7 +6,7 @@ import { DashboardLayout } from '../../src/components/dashboard/layout'
 import { supabase } from '../../utils/supabaseClient'
 import { OverviewProps, Overview, MostViewedLinks } from '../../src/components/dashboard'
 import { LinkProps } from './links'
-import { Box, Flex, HStack, Stack } from '@chakra-ui/react'
+import { Box, Stack } from '@chakra-ui/react'
 import { VisitsPoint } from '../../src/components/dashboard/Map'
 
 const MyMap = dynamic(() => import('../../src/components/dashboard/Map'), {
@@ -21,6 +21,7 @@ const DashboardIndex = () => {
 		pc_visits_count: 0,
 		mobile_visits_count: 0,
 		loading: true,
+		visits: [{}]
 	})
 
 	const [links, setLinks] = useState<LinkProps[]>([])

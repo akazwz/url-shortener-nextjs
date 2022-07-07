@@ -35,6 +35,7 @@ const handleGetOverview = async(req: NextApiRequest, res: NextApiResponse) => {
 	const { data: visits } = await supabase
 		.from('visits')
 		.select(`id, latitude, longitude`,)
+		.in('link_id', ids)
 		.neq('ip', null)
 		.neq('latitude', null)
 		.neq('longitude', null)

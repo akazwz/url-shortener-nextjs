@@ -20,6 +20,11 @@ export interface OverviewProps{
 	visits_count: number
 	pc_visits_count: number
 	mobile_visits_count: number
+	visits: {
+		id?: string
+		latitude?: string
+		longitude?: string
+	}[]
 }
 
 export const Overview = ({ overviewProps }: { overviewProps: OverviewProps }) => {
