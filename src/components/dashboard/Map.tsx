@@ -1,6 +1,6 @@
 import { LatLngTuple } from 'leaflet'
 import { MapContainer, LayersControl, TileLayer, CircleMarker } from 'react-leaflet'
-import { Box, Skeleton } from '@chakra-ui/react'
+import { Skeleton } from '@chakra-ui/react'
 
 import 'leaflet/dist/leaflet.css'
 

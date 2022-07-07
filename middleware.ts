@@ -59,6 +59,7 @@ const redirectShortId = async(shortId: string, req: NextRequest) => {
 			ip: ip,
 			is_bot: ua.isBot,
 			latitude: geo?.latitude,
+			longitude: geo?.longitude,
 			link_id: id,
 			os_name: ua.os.name,
 			os_version: ua.os.version,

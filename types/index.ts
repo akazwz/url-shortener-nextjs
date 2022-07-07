@@ -25,6 +25,7 @@ export interface Visits{
 	country?: string
 	region?: string
 	latitude?: string
+	longitude?: string
 	is_bot?: boolean
 	ua?: string
 	browser_name?: string

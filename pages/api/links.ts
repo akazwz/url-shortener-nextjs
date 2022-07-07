@@ -1,7 +1,6 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 
 import { supabase } from '../../utils/supabaseClient'
-import { map } from 'leaflet'
 
 const handle: NextApiHandler = async(req: NextApiRequest, res: NextApiResponse) => {
 	switch (req.method) {
